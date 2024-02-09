@@ -4,8 +4,8 @@
 
 import json
 import re
-import requests
 from bs4 import BeautifulSoup
+from security import safe_requests
 
 base_url = 'http://www.sacred-texts.com/tarot/pkt/pkt'
 majors_url = 'http://www.sacred-texts.com/tarot/pkt/pkt0303.htm'
@@ -138,7 +138,7 @@ def get_majors():
             - Convert the Major object to JSON format and add it to a list of cards.
             - Print a message indicating that the major card has been added."""
     
-    majs = requests.get(majors_url, timeout=60)
+    majs = safe_requests.get(majors_url, timeout=60)
     soup = BeautifulSoup(majs.content, 'html.parser')
     for p in soup.find_all('p'):
         line = p.text
@@ -172,7 +172,7 @@ def get_minors():
     for suit in suits_tup:
         for value in mins_tup:
             page_url = base_url + suit[0] + value[0] + ".htm"
-            card_page = requests.get(page_url, timeout=60)
+            card_page = safe_requests.get(page_url, timeout=60)
             soup = BeautifulSoup(card_page.content, 'html.parser')
             res = soup.select_one("p:nth-of-type(3)")
             if(res):
