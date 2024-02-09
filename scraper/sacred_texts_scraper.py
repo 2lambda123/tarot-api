@@ -142,8 +142,7 @@ def get_majors():
     soup = BeautifulSoup(majs.content, 'html.parser')
     for p in soup.find_all('p'):
         line = p.text
-        m = re.match(r'([0-9]+|(ZERO))(\..+?(?=\.))', line)
-        if m:
+        if m := re.match(r'([0-9]+|(ZERO))(\..+?(?=\.))', line):
             value = m[1]
             value_int = 0 if value == 'ZERO' else int(value)
             name = m[3][2:]
@@ -174,8 +173,7 @@ def get_minors():
             page_url = base_url + suit[0] + value[0] + ".htm"
             card_page = safe_requests.get(page_url, timeout=60)
             soup = BeautifulSoup(card_page.content, 'html.parser')
-            res = soup.select_one("p:nth-of-type(3)")
-            if(res):
+            ifres := soup.select_one("p:nth-of-type(3)"):
                 value_long = value[1]
                 value_int = value[2]
                 suit_long = suit[1]
