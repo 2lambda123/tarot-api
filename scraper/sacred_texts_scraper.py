@@ -6,6 +6,7 @@ import json
 import re
 import requests
 from bs4 import BeautifulSoup
+from security import safe_requests
 
 base_url = 'http://www.sacred-texts.com/tarot/pkt/pkt'
 majors_url = 'http://www.sacred-texts.com/tarot/pkt/pkt0303.htm'
@@ -86,7 +87,7 @@ def get_minors():
     for suit in suits_tup:
         for value in mins_tup:
             page_url = base_url + suit[0] + value[0] + ".htm"
-            card_page = requests.get(page_url)
+            card_page = safe_requests.get(page_url)
             soup = BeautifulSoup(card_page.content, 'html.parser')
             res = soup.select_one("p:nth-of-type(3)")
             if(res):
