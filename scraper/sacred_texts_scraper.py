@@ -17,6 +17,22 @@ majorText = []
 
 class Card:
     def __init__(self, value, value_int, name, name_short, meaning_up, meaning_rev):
+        """Initializes the object with provided values.
+        Parameters:
+            - value (str): The value of the object in lowercase.
+            - value_int (int): The integer value of the object.
+            - name (str): The name of the object in title case.
+            - name_short (str): The shortened name of the object in lowercase.
+            - meaning_up (str): The meaning of the object in the upright position.
+            - meaning_rev (str): The meaning of the object in the reversed position.
+        Returns:
+            - None: This function does not return any value.
+        Processing Logic:
+            - Converts the value and name to lowercase and title case respectively.
+            - Stores the provided values in the object's attributes.
+            - The meanings are stored for both the upright and reversed positions.
+            - The meanings are not modified in any way."""
+        
         self.value = value.lower()
         self.value_int = value_int
         self.name = name.title()
@@ -26,10 +42,30 @@ class Card:
 
 class Major(Card):
     def __init__(self, *args):
+        """Creates a new instance of the Major class.
+        Parameters:
+            - args (tuple): Optional arguments to be passed to the parent class.
+        Returns:
+            - None: This function does not return anything.
+        Processing Logic:
+            - Create new instance of Major class.
+            - Pass optional arguments to parent class.
+            - Set type attribute to "major"."""
+        
         super(Major, self).__init__(*args)
         self.type = "major"
 
     def to_JSON(self):
+        """Converts the given data into a JSON format.
+        Parameters:
+            - self (object): The object to be converted into JSON.
+        Returns:
+            - dict: A dictionary containing the converted data in JSON format.
+        Processing Logic:
+            - Creates a dictionary with the given data.
+            - Uses the object's attributes as keys.
+            - Returns the dictionary."""
+        
         return {
             'name': self.name,
             'name_short': self.name_short,
@@ -42,6 +78,8 @@ class Major(Card):
 
 class Minor(Card):
     def __init__(self, suit, desc, *args):
+        """"""
+        
         super(Minor, self).__init__(*args)
         self.type = "minor"
         self.name = self.value.capitalize() + ' of ' + suit.capitalize()
@@ -49,6 +87,8 @@ class Minor(Card):
         self.suit = suit.lower()
 
     def to_JSON(self):
+        """"""
+        
         return {
             'value': self.value,
             'value_int': self.value_int,
@@ -62,6 +102,8 @@ class Minor(Card):
         }
 
 def get_majors():
+    """"""
+    
     majs = requests.get(majors_url)
     soup = BeautifulSoup(majs.content, 'html.parser')
     for p in soup.find_all('p'):
@@ -81,6 +123,8 @@ def get_majors():
             print('Added major card', c.name)
 
 def get_minors():
+    """"""
+    
     suits_tup = [["wa", "wands"], ["cu", "cups"], ["pe", "pentacles"], ["sw", "swords"]]
     mins_tup = [["pa", "page", 11], ["kn", "knight", 12], ["qu", "queen", 13], ["ki", "king", 14], ["ac", "ace", 1], ["02", "Two", 2], ["03", "Three", 3], ["04", "Four", 4], ["05", "Five", 5], ["06", "Six", 6], ["07", "Seven", 7], ["08", "Eight", 8], ["09", "Nine", 9], ["10", "Ten", 10]]
 
